@@ -1,0 +1,99 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>split方法</title>
+<style>
+*{ margin:0; padding:0; list-style:none}
+#box{ margin:30px auto; width:980px; background-color:#FFFBF9; border:5px solid #BCC1C4; height:310px;}
+.fl{ float:left; margin:5px; border:1px dotted #c90; height:300px;}
+.one{ background-color: #F0EED7; width:380px;}
+textarea{ background-color: #F0EED7; width:380px; height:300px; outline:none; resize:none;font-size: 16px;}
+.two{width:160px;}
+.two input{width:100px; height:30px; line-height:30px; text-align:center;}
+.two p{margin:10px 0;text-align:center;}
+.three{ background-color: #FAF5C6; width:380px;}
+#speedLi{ height:10px; width:140px; margin:10px auto; height:10px; display:none;}
+#speedLi li{width:10px; height:10px; margin:0 2px; background:#ccc; float:left;background:#f90;}
+#speedLi li.active{
+	background: red;
+}
+</style>
+<script src="js/tools.js"></script>
+<script>
+	window.onload = function (){
+	 	var text = $("#text");
+	 	var btn = $("#btn");
+	 	var txtBox = $("#showTex");
+	 	var counter = $("#numtex");
+	 	var spList = $("#speedLi");
+	 	var allLi = $("li",spList);
+	 	var len = allLi.length;
+	 	var n = 0, m = 0;
+	 	var timer = null;
+
+	 	btn.onclick = function (){
+	 		
+			if( timer ) return;
+
+	 		var html = text.value;
+	 		if( html ){
+	 			txtBox.innerHTML = "";
+	 			spList.style.display = "block";
+	 		}
+	 		
+	 		timer = setInterval(function (){
+	 			counter.innerHTML = n + "/" + html.length;
+	 			n++;
+	 			m++;
+	 			if( m > len - 1 ){
+	 				m = 0;
+	 			}
+	 			for( var i = 0; i < len; i++ ){
+	 				allLi[i].className = "";
+	 			}
+	 			allLi[m].className = "active";
+	 			if( n > html.length ){
+	 				clearInterval(timer);
+	 				spList.style.display = "none";
+	 				timer = null;
+	 				n = 0;
+	 				return;
+	 			}
+	 			text.value = html.substring(n);
+	 			txtBox.innerHTML += html.slice(n-1,n);
+	 		},30)
+
+	 	}
+	 	
+	}
+
+</script>
+</head>
+<body>
+
+<div id="box">
+	<div class="fl one">
+		<textarea name="" id="text" cols="30" rows="10">隋朝末年，隋炀帝杨广好大喜功，内外失政，以致人心尽失，群雄割据，烽烟四起，形成一发不可收拾之乱局。寇仲和徐子陵，原是两个无父无母流浪天涯的小混混，仲为人机灵多计、重情重义、雄心壮志、不甘平凡；陵则为人忠厚纯朴、感情细腻、甘于淡泊。两人自少同甘共苦，互相扶持，是一对生死不离的好兄弟。</textarea>
+	</div>
+	<div class="fl two">
+		<p><input type="button" value="start" id="btn"/></p>
+		<p id="numtex">0/0</p>
+		<div></div>
+		<ul id="speedLi">
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+		</ul>
+	</div>
+	<div class="fl three" id="showTex"></div>
+</div>
+</body>
+</html>

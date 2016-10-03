@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        a {
+            color: #000;
+            text-decoration: none;
+        }
+        .clear:after{
+            content: '';
+            display: block;
+            clear:both;
+        }
+        .wrap {
+            width: 650px;
+            height: 490px;
+            background: #eee;
+            margin: 50px auto;
+            padding: 50px 20px 0 30px;
+        }
+        #cont {
+            float: left;
+            margin-right: 20px;
+            width: 500px;
+            height: 250px;
+            font: 14px/30px "宋体";
+            padding: 12px 20px 0;
+            text-indent:2em;
+            background: #fff;
+        }
+        .right a {
+            display: block;
+            float: right;
+            width: 80px;
+            margin-top: 3px;
+            line-height: 40px;
+            text-align: center;
+            background: #94948c;
+        }
+        #unfold {
+            color: #fff;
+        }
+        #unfold:hover {
+            background: #7a7a73;
+        }
+        #subIntro {
+            display: none;
+        }
+        #subIntro a {
+            background: #c0c0c0;
+        }
+        #subIntro a:hover ,
+        .active {
+            color: #fff;
+            background: #e76308;
+        }
+        #findBox {
+            display: none;
+            width: 470px;
+            height: 115px;
+            padding: 10px 10px 0 20px;
+            border: 10px solid #e71063;
+            background: #e7e7b5;
+        }
+        #findBox nav {
+            width: 460px;
+            border-bottom: 2px solid #e73100 ;
+        }
+        #findBox a {
+            display: inline-block;
+            width: 80px;
+            line-height:32px;
+            text-align: center;
+        }
+        #findBox nav .active {
+            background: red;
+        }
+        .find {
+            padding-top: 22px;
+        }
+        #cont span {
+            background: orange;
+        }
+        #close {
+            float: right;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+
+    </style>
+    <script src="js/tools.js"></script>
+    <script>
+        window.onload = function () {
+            var cont = $("#cont");
+            var unfold = $("#unfold");
+            var find = $("#find");
+            var find2 = $("#find2");
+            var rep1 = $("#replace");
+            var rep2 = $("#replace2");
+            var subIntro = $("#subIntro");
+            var findBox = $("#findBox");
+            var navs = $(".nav",findBox);
+            var finds = $(".find",findBox);
+            var texts = $(".text");
+            var btns = $(".btn");
+            var clo = $("#close");
+            var onOff = true,flag = true,str1 = "";
+
+            unfold.onclick = function (){
+                subIntro.style.display = onOff ? "block":"none";
+                onOff != onOff;
+            }
+
+            function tabChange(){
+                btns[0].style.display = flag ? "inline-block":"none";
+                btns[1].style.display = flag ? "none":"inline-block";
+                texts[1].style.display = flag ? "none":"inline-block";
+            }
+
+            find.onclick = function (){
+                flag = true;
+                subIntro.style.display = "none";
+                onOff = true;
+                findBox.style.display = "block";
+                rep2.className = "none";
+                find2.className = "active";
+                tabChange();
+            }
+
+            rep1.onclick = function (){
+                flag = false;
+                subIntro.style.display = "none";
+                onOff = true;
+                findBox.style.display = "block";
+                rep2.className = "active";
+                find2.className = "none";
+                tabChange();
+            }
+
+            find2.onclick = function (){
+                flag = true;
+                this.className = "active";
+                rep2.className = "none";
+                tabChange();
+                if( str1 != "" )cont.innerHTML = str1;
+            }
+
+            rep2.onclick = function (){
+                flag = false;
+                this.className = "active";
+                find2.className = "none";
+                tabChange();
+                if( str1 != "" ) cont.innerHTML = str1;
+            }
+
+            clo.onclick = function (){
+                findBox.style.display = "none";
+            }
+
+            btns[0].onclick = function (){
+                if( str1 != "" )cont.innerHTML = str1;
+                var cHtml = cont.innerHTML;
+                var text = texts[0].value;
+                arr = cHtml.split(text.trim());
+                if ( text.trim() === "" ){
+                    alert("请输入要查找的内容~");
+                } else {
+                    if( arr.length < 2  ){
+                        alert("未找到"+text.trim()+"~");
+                    } else {
+                        cont.innerHTML = arr.join("<span>"+ text.trim() +"</span>");
+                        str1 = arr.join(text.trim());
+                    }
+                } 
+                texts[0].value = "";
+            }
+
+            btns[1].onclick = function (){
+                if( str1 != "" )cont.innerHTML = str1;
+                var cHtml = cont.innerHTML;
+                var text1 = texts[0].value;
+                var text2 = texts[1].value;
+                arr = cHtml.split(text1.trim());
+                if ( text1.trim() === "" ){
+                    alert("请输入要替换的内容~");
+                } else {
+                    if( arr.length < 2  ){
+                        alert("未找到"+text1.trim()+"~");
+                    } else {
+                        cont.innerHTML = arr.join("<span>"+ text2.trim() +"</span>");
+                        str1 = arr.join(text2.trim());
+                    }
+                }
+                texts[0].value = "";
+                texts[1].value = "";
+            }
+        } 
+    </script>
+</head>
+<body>
+<section class="wrap">
+    <div class="clear">
+        <p id="cont">
+            “中国女子入境越南时被边检人员在护照上写脏话”事件引起中国网民愤怒。中国驻胡志明市总领事馆27日在官方网站上发布消息：7月23日，中国公民钟某在入境越南胡志明市时发现护照被污损。我馆高度重视，立即了解情况，收集证据。27日上午，我馆就此向胡志明市外办提出交涉，指出污损中国护照有损中国公民国格、人格，是无耻的懦夫行为，中方表示愤慨、蔑视和谴责。中方要求越方调查事件，严肃处理相关责任人，确保此类事件不再发生。越方表示将对此进行调查。
+        </p>
+        <div class="right">
+            <a href="javascript:;" id="unfold">展开</a>
+            <div id="subIntro">
+                <a href="javascript:;" id="find">查找</a>
+                <a href="javascript:;" id="replace">替换</a>
+            </div>
+        </div>
+    </div>
+    <div id="findBox">
+        <span id="close">×</span>
+        <nav class="nav">
+            <a href="javascript:;" id="find2">查找</a>
+            <a href="javascript:;" id="replace2">替换</a>
+        </nav>
+        <div class="find">
+            <input type="text" class="text" />
+            <input type="text" class="text" />
+            <input type="button" value="查找" class="btn" />
+            <input type="button" value="替换" class="btn" />
+        </div>
+    </div>
+</section>
+</body>
+</html>
